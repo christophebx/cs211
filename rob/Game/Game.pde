@@ -62,6 +62,7 @@ PGraphics barChart;
 
 PFont f; /* font preset */
 
+HScrollbar scrollBar;
 
 void settings() {
   size(windowWidth, windowHeight, P3D);
@@ -120,6 +121,8 @@ void setup() {
   topView = createGraphics(statSize, statSize, P2D);
   scoreBoard = createGraphics(statSize/2, statSize, P2D);
   barChart = createGraphics(windowWidth - (statSize*3/2 + 4*statBorder), statSize - 2*statBorder, P2D);
+  
+  scrollBar = new HScrollbar((statSize*3/2 + 3*statBorder), windowHeight - 2*statBorder, (windowWidth - (statSize*3/2 + 4*statBorder))/3, (statSize - 2*statBorder)/10);
 }
 
 
@@ -207,6 +210,9 @@ void draw() {
     text(cylinders.size(), 0, 80); /* display current number of cylinders */
     popMatrix();
   }
+  
+  scrollBar.update();
+  scrollBar.display();
 }
 
 int counter = framerate/2;
@@ -217,11 +223,12 @@ void drawChart(){
   barChart.background(dataBoxC);
   barChart.fill(ballC);
   barChart.stroke(255);
-  int squareSize = 10;
-  for(int i = 0; i*squareSize < windowWidth - (statSize*3/2 + 4*statBorder); i += 1){
-      for(int j = 0; j*squareSize <= statSize - 2*statBorder; j += 1){
+  float squareSizeX = 20*(scrollBar.getPos() + 0.2);
+  float squareSizeY = 14;
+  for(int i = 0; i*squareSizeX < windowWidth - (statSize*3/2 + 4*statBorder); i += 1){
+      for(int j = 0; j*squareSizeY <= statSize - 2*statBorder; j += 1){
       if(i < scores.size() && j < scores.get(i)/50){
-      barChart.rect(i*squareSize, statSize - 2*statBorder - j*squareSize, squareSize, squareSize);
+      barChart.rect(i*squareSizeX, statSize - 2*statBorder - j*squareSizeY, squareSizeX, squareSizeY);
       }
     }
   }
