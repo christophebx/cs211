@@ -214,7 +214,15 @@ int counter = framerate/2;
 /* TODO ___ */
 void drawChart(){
   barChart.beginDraw();
-  barChart.background(dataBoxC); 
+  barChart.background(dataBoxC);
+  barChart.fill(ballC);
+  barChart.stroke(255);
+  int squareSize = 10;
+  for(int i = 0; i < windowWidth - (statSize*3/2 + 4*statBorder); i = i + squareSize){
+    for(int j = statSize - 2*statBorder - squareSize; j >= statBorder; j = j - squareSize){
+      barChart.rect(i, j, squareSize, squareSize);
+    }
+  }
   barChart.endDraw();
   if(counter < framerate/2){
     ++counter;
