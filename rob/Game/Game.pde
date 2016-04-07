@@ -218,17 +218,21 @@ void drawChart(){
   barChart.fill(ballC);
   barChart.stroke(255);
   int squareSize = 10;
-  for(int i = 0; i < windowWidth - (statSize*3/2 + 4*statBorder); i = i + squareSize){
-    for(int j = statSize - 2*statBorder - squareSize; j >= statBorder; j = j - squareSize){
-      barChart.rect(i, j, squareSize, squareSize);
+  for(int i = 0; i*squareSize < windowWidth - (statSize*3/2 + 4*statBorder); i += 1){
+      for(int j = 0; j*squareSize <= statSize - 2*statBorder; j += 1){
+      if(i < scores.size() && j < scores.get(i)/50){
+      barChart.rect(i*squareSize, statSize - 2*statBorder - j*squareSize, squareSize, squareSize);
+      }
     }
   }
   barChart.endDraw();
-  if(counter < framerate/2){
-    ++counter;
-  } else {
-    counter = 0;
-    scores.add(score);
+  if(!addMode){
+    if(counter < framerate/2){
+      ++counter;
+    } else {
+      counter = 0;
+      scores.add(score);
+    }
   }
 }
 void drawScores() {
